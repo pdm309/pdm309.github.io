@@ -1,0 +1,76 @@
+<table>
+
+<tr>
+<td><canvas id=canvas1 width=400 height=300></td>
+<td width=50></td>
+<td>
+Click and drag this dot to the goal.
+</td>
+</tr>
+Homework 5- Paul Merritt
+<tr>
+<td><canvas id=canvas2 width=400 height=300></td>
+<td width=50></td>
+<td>
+
+</td>
+</tr>
+
+</table>
+
+<script src=drawlib1.js></script>
+<script>
+   canvas1.update = function(g) {
+      //var blue = 128 + Math.floor(128 * Math.sin(10 * time));
+      //blue = 0;
+      //g.fillStyle = "red";
+      var x = this.cursor.x;
+      var y = this.cursor.y;
+      var z = this.cursor.z;
+      if (z == 0) {
+         x = this.width / 2;
+         y = this.height / 2 + 100;
+      }
+      //g.fillStyle = 'rgb(170, 66, 244)';
+      //g.strokeStyle = 'rgb(170, 66, 244)';
+	if (!(x < 260 && x > 95 && y < 105 && y > 40)){
+		g.font = "75px Arial";
+		g.lineWidth = 10;
+		g.strokeStyle = 'black';
+		g.strokeText("Goal",100,100);
+	}
+      g.lineCap = 'round';
+      g.lineJoin = 'round';
+
+      g.beginPath();
+      g.moveTo(0, 0);
+      g.lineTo(this.width, 0);
+      g.lineTo(this.width, this.height);
+      g.lineTo(0, this.height);
+      g.lineTo(0, 0);
+      g.stroke();
+
+      g.beginPath();
+
+      
+
+      //var angle = Math.sin(time);
+      //var flapY = 100 * Math.sin(angle);
+      //var flapX = 100 * Math.cos(angle);
+      //g.moveTo(x-flapX, y-flapY);
+      g.lineTo(x+0, y+0);
+      //g.lineTo(x+flapX, y-flapY);
+      g.stroke();
+
+	if (x < 260 && x > 95 && y < 105 && y > 40){
+		g.font = "50px Arial";
+		g.lineWidth = 5;
+		g.strokeStyle = 'rgb(170, 66, 244)';
+		g.strokeText("Success",50,250);
+		}
+   }
+
+   draw2DCanvases([canvas1]);
+</script>
+
+

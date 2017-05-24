@@ -1,0 +1,435 @@
+<table>
+
+<tr>
+<td><canvas id=canvas1 width=900 height=400></td>
+<td><canvas id=canvas2 width=900 height=400></td>
+
+</tr>
+
+</table>
+<embed src="song.mp3" autostart="true">
+<script src=drawlib1.js></script>
+<script src=M.js></script>
+<script src=S.js></script>
+<script>
+
+// MATRIX IS AN ARRAY OF 16 NUMBERS.
+
+//matrices for each player's body
+   var m = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   var m2 = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   
+   //matrices for 3 bullets that can be fired at a time
+   var bula = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   var bulb = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   var bulc = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   
+   //matrices for 3 bullets that can be fired at a time
+   var bulx = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   var buly = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   var bulz = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+   
+   //variables for tracking input left/right and jump from player 1
+   var moveX = 0;
+   var moveY = 0;
+   var ascend = 0;
+   
+   //variables for tracking input left/right and jump from player 2
+   var moveX2 = 0;
+   var moveY2 = 0;
+   var ascend2 = 0;
+   
+   //variables for tracking position/movement for player 1 and 2's bullet
+   var movebula = 0;
+   var movebulx = 0;
+   var movebulay = 0;
+   var movebulxy = 0; 
+   var fireda = 0;
+   var firedx = 0;
+
+   //variables for tracking who won
+   var score1 = 0;
+   var score2 = 0;
+   
+   
+   //variable that holds keyboard inputs
+   var keys = [];
+
+   //variable that determines if we started
+   var isStarted = 0;
+   
+   canvas1.update = function(g) {
+      var p, C, c, canvas = this;
+	  
+
+      // DRAW A SET OF CURVES IN 3D WITH PERSPECTIVE PROJECTION.
+		
+      function drawCurves(m, C) {
+         var i, n, p, cv, x, y, z, fl = 5,
+	     w = canvas.width;
+	     h = canvas.height;
+
+         // LOOP THROUGH CURVES.
+
+         for (n = 0 ; n < C.length ; n++) {
+
+            // BUILD THE PROJECTED CURVE, POINT BY POINT.
+
+	    cv = [];
+	    for (i = 0 ; i < C[n].length ; i++) {
+
+	       // TRANSFORM POINT
+
+	       p = M.transform(m, C[n][i]);
+
+	       // RETRIEVE COORDINATES FROM TRANSFORMED POINT
+
+	       x = p[0];
+	       y = p[1];
+	       z = p[2];
+
+	       // DO PERSPECTIVE TRANSFORM
+
+	       x *= fl / (fl - z);
+	       y *= fl / (fl - z);
+
+	       // DO VIEWPORT TRANSFORM
+
+	       x =  w * x * .5 + .5 * w;
+	       y = -w * y * .5 + .5 * h;
+	       cv.push([x, y]);
+            }
+
+	    // DRAW THE PROJECTED CURVE ONTO THE CANVAS.
+
+	    g.beginPath();
+            g.moveTo(cv[0][0], cv[0][1]);
+	    for (i = 1 ; i < cv.length ; i++)
+               g.lineTo(cv[i][0], cv[i][1]);
+	    g.stroke();
+         }
+      }
+	  /*hitboxes*/
+	var hitbox1x1 = -22;
+	var hitbox1x2 = -17;
+	var hitbox1y1 = 0;
+	var hitbox1y2 = 3.5;
+   
+	var hitbox2x1 = 17;
+	var hitbox2x2 = 22;
+	var hitbox2y1 = 0;
+	var hitbox2y2 = 3.5;
+	  
+	  
+	  /*DETECT INPUT*/
+	  // key events
+document.body.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+});
+document.body.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+});
+
+    if (keys[65]) {
+	//left
+	if(moveX >= -.3){
+		moveX += -.01;
+	}
+    }
+	
+    else if (keys[68]) {
+	//right
+    if(moveX <= 3.3){
+		moveX += .01;
+	}
+    }
+	
+	
+	if (keys[87]) {
+	//up
+		if (ascend == 0 && moveY == 0){
+		ascend = 1;
+		}
+	}
+	
+	if (keys[83]) {
+	//down
+		if (fireda == 0 && movebula == 0){
+		fireda = 1;
+		movebula = moveX*2.25;
+		movebulay = moveY*2.25;
+		}
+	}
+	
+	if (keys[37]) {
+	//left2
+	if(moveX2 >= -3.3){
+		moveX2 += -.01;
+	}
+    }
+
+	
+    else if (keys[39]) {
+	//right2
+    if(moveX2 <= .3){
+		moveX2 += .01;
+	}
+    }
+	
+	
+	if (keys[38]) {
+    //up2
+        if (ascend2 == 0 && moveY2 == 0){
+        ascend2 = 1;
+        }
+    }
+	
+	if (keys[40]) {
+	//down2
+		if (firedx == 0 && movebulx == 0){
+		firedx = 1;
+		movebulx = moveX2*2.25;
+		movebulxy = moveY2*2.25;
+		}
+	}
+	
+if (fireda == 1){
+	if (movebula < 25){
+	movebula+=.2;
+	}
+	if (movebula >= 25){
+		//check dist
+			fireda = 0;
+		}
+}
+	else if (fireda == 0){
+		movebula = 0;
+	}
+	
+	
+if (firedx == 1){
+	if (movebulx > -25){
+	movebulx-=.2;
+	}
+	if (movebulx <= -25){
+		//check dist
+			firedx = 0;
+		}
+}
+	else if (firedx == 0){
+		movebulx = 0;
+	}
+if (ascend == 1){
+		if (moveY <= 2){
+			moveY += .1;
+		}
+		if (moveY > 2){
+		//check height
+			ascend = 0;
+		}
+	}
+	else if (ascend == 0){
+		moveY -= .1;
+		if (moveY <= 0){
+			moveY = 0;
+		}
+	}
+if (ascend2 == 1){
+		if (moveY2 <= 2){
+			moveY2 += .1;
+		}
+		if (moveY2 > 2){
+		//check height
+			ascend2 = 0;
+		}
+	}
+	else if (ascend2 == 0){
+		moveY2 -= .1;
+		if (moveY2 <= 0){
+			moveY2 = 0;
+		}
+	}
+	
+	/*update hitboxes*/
+	hitbox1x1 += moveX*2.25;
+	hitbox1x2 += moveX*2.25;
+	hitbox1y1 += moveY;
+	hitbox1y2 += moveY;
+	
+	hitbox2x1 += moveX2*2.25;
+	hitbox2x2 += moveX2*2.25;
+	hitbox2y1 += moveY2;
+	hitbox2y2 += moveY2;
+	
+	
+      g.lineCap = 'round';
+      g.lineJoin = 'round';
+      g.lineWidth = 1;
+
+      // OUTLINE THE CANVAS
+
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();
+
+      M.identity(m);
+	  M.identity(m2);
+	  M.identity(bula);
+	  M.identity(bulx);
+
+      M.scale(m, .15);  // Scale the scene down.
+	  M.scale(m2, .15);
+	  M.scale(bula, .075);
+	  M.scale(bulx, .075);
+
+      // DRAW SHAPES.
+
+      M.save(m);
+	  M.save(m2);
+	  M.save(bula);
+	  M.save(bulx);
+
+         
+		 //player1
+		 M.translate(m, [moveX, moveY, 0]);
+		 M.rotateX(m, 5);
+		 M.translate(m, [-4.5, -4, 0]);
+		 if (score2 == 0){
+			drawCurves(m, S.parametricMesh(S.tube, 25, 25));
+		 }
+		 
+		 
+		 //bullet a walks with player 1 and fires at appropriate x/y
+		 if (fireda == 0){
+		 M.translate(bula, [moveX*2.25, moveY*2.25, 0]);
+		 }
+		 else{
+		 if (movebula >= hitbox2x1 && movebula <= hitbox2x2 && movebulay >= hitbox2y1 && movebulay <= hitbox2y2){
+			score1 = 1;
+		 }
+		 else {
+		 M.translate(bula, [movebula, movebulay, 0]);
+		 }
+		 }
+		 
+		 M.translate(bula, [-10.2, -2.5, 0]);
+		 if (score2 == 0){
+			drawCurves(bula, S.parametricMesh(S.sphere, 15, 15));
+		 }
+		 
+         //player2
+		 M.translate(m2, [moveX2, moveY2, 0]);
+		 M.rotateX(m2, 5);
+		 M.translate(m2, [4.5, -4, 0]);
+		 if (score1 == 0){
+			drawCurves(m2, S.parametricMesh(S.tube, 25, 25));
+		 }
+		 
+		 
+		 
+		 //bullet a walks with player 2 and fires at appropriate x/y
+		 if (firedx == 0){
+		 M.translate(bulx, [moveX2*2.25, moveY2*2.25, 0]);
+		 }
+		 else{
+		 if (movebulx >= hitbox1x1 && movebulx <= hitbox1x2 && movebulxy >= hitbox1y1 && movebulxy <= hitbox1y2){
+			score2 = 1;
+		 }
+		 else {
+			M.translate(bulx, [movebulx, movebulxy, 0]);
+		 }
+		 }
+		 
+		 M.translate(bulx, [10.2, -2.5, 0]);
+		 if (score1 == 0){
+			drawCurves(bulx, S.parametricMesh(S.sphere, 15, 15));
+		 }
+		 
+		 
+		 M.restore(m);
+		 M.restore(m2);
+		 M.restore(bula);
+		 M.restore(bulx);
+
+		    
+   }
+   canvas2.update = function(g) {
+      //var blue = 128 + Math.floor(128 * Math.sin(10 * time));
+      //blue = 0;
+      //g.fillStyle = "red";
+      var x = this.cursor.x;
+      var y = this.cursor.y;
+      var z = this.cursor.z;
+      if (z == 0) {
+         x = this.width / 2;
+         y = this.height / 2 + 100;
+      }
+      //g.fillStyle = 'rgb(170, 66, 244)';
+      //g.strokeStyle = 'rgb(170, 66, 244)';
+	  if (score1 == 0 && score2 == 0){
+		g.font = "20px Arial";
+		g.lineWidth = 1;
+		g.strokeStyle = 'black';
+		g.strokeText("Player 1 Controls:",50,100);
+		g.strokeText("Move left and right with the A and D keys",50,200);
+		g.strokeText("Jump with W and Shoot with S",50,300);
+		
+		g.strokeText("Player 2 Controls:",450,100);
+		g.strokeText("Move left and right with the Left and Right keys",450,200);
+		g.strokeText("Jump with Up and Shoot with Down",450,300);
+		
+		g.strokeText("Click anywhere on screen to start!",250,350);
+	  }
+		
+      g.lineCap = 'round';
+      g.lineJoin = 'round';
+
+      g.beginPath();
+      g.moveTo(0, 0);
+      g.lineTo(this.width, 0);
+      g.lineTo(this.width, this.height);
+      g.lineTo(0, this.height);
+      g.lineTo(0, 0);
+      g.stroke();
+
+      g.beginPath();
+
+      
+
+      //var angle = Math.sin(time);
+      //var flapY = 100 * Math.sin(angle);
+      //var flapX = 100 * Math.cos(angle);
+      //g.moveTo(x-flapX, y-flapY);
+      g.lineTo(x+0, y+0);
+      //g.lineTo(x+flapX, y-flapY);
+      g.stroke();
+
+	if (score1 == 1){
+		g.font = "50px Arial";
+		g.lineWidth = 5;
+		g.strokeStyle = 'rgb(170, 66, 244)';
+		g.strokeText("Player 1 Wins!",50,250);
+		movebulx = 500;
+		movebuly = 500;
+		movebulax = 500;
+		movebulay = 500;
+		}
+	if (score2 == 1){
+		g.font = "50px Arial";
+		g.lineWidth = 5;
+		g.strokeStyle = 'rgb(170, 66, 244)';
+		g.strokeText("Player 2 Wins!",450,250);
+		movebulx = 500;
+		movebuly = 500;
+		movebulax = 500;
+		movebulay = 500;
+	}
+   }
+
+   
+   draw2DCanvases([canvas1, canvas2]);
+</script>

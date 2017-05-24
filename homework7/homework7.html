@@ -1,0 +1,162 @@
+<html>
+<head>
+   <style type="text/css">
+      body {
+            margin-left: 25%;
+            margin-right: 25%;
+            height: 100%;
+            width: 
+         }
+      canvas { margin: auto; }
+      p {text-align: center;}
+   </style>
+</head>
+<table>
+
+<tr>
+<td><canvas id=canvas1 width=600 height=400></td>
+<td width=75></td>
+<td valign=top>
+</td>
+</tr>
+
+</table>
+
+<script src=drawlib1.js></script>
+<script src=M.js></script>
+<script src=S.js></script>
+<script>
+
+   // MATRIX IS AN ARRAY OF 16 NUMBERS.
+
+   var m = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+
+   canvas1.update = function(g) {
+      var p, C, c, canvas = this;
+
+      // DRAW A SET OF CURVES IN 3D WITH PERSPECTIVE PROJECTION.
+
+      function drawCurves(m, C) {
+         var i, n, p, cv, x, y, z, fl = 5,
+	     w = canvas.width;
+	     h = canvas.height;
+
+         // LOOP THROUGH CURVES.
+
+         for (n = 0 ; n < C.length ; n++) {
+
+            // BUILD THE PROJECTED CURVE, POINT BY POINT.
+
+	    cv = [];
+	    for (i = 0 ; i < C[n].length ; i++) {
+
+	       // TRANSFORM POINT
+
+	       p = M.transform(m, C[n][i]);
+
+	       // RETRIEVE COORDINATES FROM TRANSFORMED POINT
+
+	       x = p[0];
+	       y = p[1];
+	       z = p[2];
+
+	       // DO PERSPECTIVE TRANSFORM
+
+	       x *= fl / (fl - z);
+	       y *= fl / (fl - z);
+
+	       // DO VIEWPORT TRANSFORM
+
+	       x =  w * x * .5 + .5 * w;
+	       y = -w * y * .5 + .5 * h;
+	       cv.push([x, y]);
+            }
+
+	    // DRAW THE PROJECTED CURVE ONTO THE CANVAS.
+
+	    g.beginPath();
+            g.moveTo(cv[0][0], cv[0][1]);
+	    for (i = 1 ; i < cv.length ; i++)
+               g.lineTo(cv[i][0], cv[i][1]);
+	    g.stroke();
+         }
+      }
+
+      g.lineCap = 'round';
+      g.lineJoin = 'round';
+      g.lineWidth = 1;
+
+      // OUTLINE THE CANVAS
+
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();
+
+      M.identity(m);
+      M.scale(m, .5);  // Scale the scene down.
+
+      // DRAW SHAPES.
+
+      M.save(m);
+         //M.rotateY(m, time/2);
+         //M.rotateX(m, time/2);
+		 
+		 M.rotateX(m, 5);
+		 M.translate(m, [0, -3, 0]);
+		 M.scale(m, .7);
+		 drawCurves(m, S.parametricMesh(S.sphere, 25, 25));
+		 
+		 M.translate(m, [0, 1, 1]);
+		 M.scale(m, 0.75);
+		 drawCurves(m, S.parametricMesh(S.sphere, 20, 20));
+		 
+         
+         M.translate(m, [0,6,0]);
+         M.scale(m, 0.8);
+         drawCurves(m, S.parametricMesh(S.sphere, 15, 15));
+
+		 
+		 M.scale(m, .6);
+		 M.translate(m, [0, 10, 0]);
+		 drawCurves(m, S.parametricMesh(S.torus, 10, 10));
+		 
+		 M.scale(m, 1);
+		 M.translate(m, [3, -5, -5]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 M.translate(m, [-6, 0, 0]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 
+		 M.scale(m, .75);
+		 M.translate(m, [9, 0, 0]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 M.translate(m, [-10, 0, 0]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 
+		 M.scale(m, .75);
+		 M.translate(m, [15, 0, 0]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 M.translate(m, [-16.5, 0, 0]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 
+		 M.scale(m, .75);
+		 M.translate(m, [23.5, 0, 0]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 M.translate(m, [-25, 0, 0]);
+		 drawCurves(m, S.parametricMesh(S.tube, 5, 5));
+		 
+		 
+        
+		 M.restore(m);
+   }
+
+   // WE ARE DRAWING ONLY ONE CANVAS.
+
+   drawCanvases([canvas1]);
+</script>
+</canvas>
+<p>I made a snowman out of 3 spheres and 8 tubes, then gave him a tube halo for a hat </p>
+</html>

@@ -1,0 +1,225 @@
+<script src=M.js></script>
+<script src=lib2g.js></script>
+
+<body bgcolor=black text=white>
+<center>
+<canvas id='canvas1' width=600 height=600></canvas>
+</center>
+</body>
+
+<script id='vs_script' type='x-shader/x-vertex'>
+   attribute vec3 aPos, aNor;
+   varying   vec3 vPos, vNor;
+   uniform   mat4 matrix, invMatrix;
+   void main() {
+      vec4 pos = matrix * vec4(aPos, 1.);
+      vec4 nor = vec4(aNor, 0.) * invMatrix;
+      gl_Position = pos;
+      vPos = pos.xyz;
+      vNor = nor.xyz;
+   }
+</script>
+
+<script id='fs_script' type='x-shader/x-fragment'>
+
+
+// Homework 10 - Paul Merritt
+varying vec3 vPos, vNor;
+uniform float uTime;
+vec3 LDir = normalize(vec3(1., -cos(uTime), 2.));
+
+vec2 raytraceSphere(vec3 V, vec3 W, vec4 S) {
+   V -= S.xyz;
+   float B = 2. * dot(V, W);
+   float C = dot(V, V) - S.w * S.w;
+   float discrim = B*B - 4.*C;
+   vec2 t = vec2(1000., 1000.);
+   if (discrim > 0.)
+      t = vec2(-B - discrim, -B + discrim) / 2.;
+   return t.x > 0. ? t : vec2(1000., 1000.);
+}
+
+vec3 phong(vec3 N, vec3 E, vec3 A, vec3 D, vec4 S) {
+   vec3 c = A;                                // Ambient color
+   vec3 LDir = normalize(LDir);
+   float d = max(0., dot(N, LDir));           // Diffuse value
+   vec3 R = 2. * dot(N, LDir) * N - LDir;     // Reflection dir
+   float s = pow(max(0., dot(E, R)), S.a);    // Specular value
+   c += d * D + s * S.rgb * .1*S.a;
+   return c;
+}
+
+void main() {
+   vec3 normal = normalize(vNor);
+   vec3 c = normal * .5 + .5;
+   c = phong(normal, 
+             vec3(0.,0.,-1.), 
+             vPos, 
+             vec3(1.,1.,1.), 
+             vec4(1.,1.,1.,1.)
+             );
+
+  vec3 V2 = vec3(0.,0.,0.);                      // Ray origin
+  vec3 W2 = normalize(vec3(vPos.xy, -3.));       // Ray direction
+  vec4 S2 = vec4(cos(uTime),sin(uTime),-5. + sin(uTime),.5); // Animate
+ 
+  vec2 t = raytraceSphere(V2, W2, S2);
+
+  if (t.x > 0.) {
+     vec3 P2 = V2 + t.x * W2;                      // Point on sphere
+     vec3 N2 = normalize(P2 - S2.xyz);             // Surface normal
+     float brightness = max(0., dot(N2, LDir));
+     brightness = mix(.2, brightness, .5);      // Diffuse surface
+     c = (.1 + .7 * N2) + brightness;
+  }
+
+
+   gl_FragColor = vec4(sqrt(c), 1.);
+
+}
+</script>
+   
+<script>
+
+var m = M.identityMatrix();
+
+var vs = vs_script.innerHTML, fs = fs_script.innerHTML;
+
+addTextEditor(fs, function() { canvas1.setShaders(vs, this.value); });
+
+var obj1, obj2, obj3, obj4;
+
+gl_start(canvas1, vs, fs,
+   function(time) {
+      M.identity(m);
+      M.rotateY(m, time * .2);
+      M.rotateX(m, time * .2);
+
+
+      M.save(m);
+         obj1.setMatrix(m);
+      M.restore(m);
+
+      M.save(m);
+         // M.rotateX(m, .2);
+         M.translate(m, [0., -.01, .0]);
+         obj2.setMatrix(m);
+      M.restore(m);
+
+      M.save(m);
+         M.translate(m, [0., -1., .0]);
+         // M.rotate(m, 1.);
+         obj3.setMatrix(m);
+      M.restore(m);
+
+      M.save(m);
+         M.translate(m, [0., .5, .5]);
+         M.scale(m, 0.25);
+         // M.rotate(m, 1.);
+         obj4.setMatrix(m);
+      M.restore(m);
+
+      M.save(m);
+         M.translate(m, [0., 1., -.5]);
+         // M.rotate(m, 1.);
+         obj5.setMatrix(m);
+      M.restore(m);
+
+   }
+);
+   var scene = new Scene();
+
+   obj1 = new SceneObject();
+   obj1.setVertices([
+      -.2,-.7, 0,  0,0,1,
+       .2,-.7, 0,  0,0,1,
+       .2, .7, 0,  0,0,1,
+
+       .2, .7, 0,  0,0,1,
+      -.2, .7, 0,  0,0,1,
+      -.2,-.7, 0,  0,0,1,
+   ]);
+   scene.addObject(obj1);
+
+   obj2 = new SceneObject();
+   obj2.setVertices([
+      -.6,-.6,-.1,  -0.5,0,1,
+       .0,-.6, .1,  -0.5,0,1,
+       .0, .0, .1,  -0.5,0,1,
+
+       .0, .0, .1,  -0.5,0,1,
+      -.6, .0,-.1,  -0.5,0,1,
+      -.6,-.6,-.1,  -0.5,0,1,
+   ]);
+   scene.addObject(obj2);
+
+  obj3 = new SceneObject();
+   obj3.setVertices([
+            -1,0,0,0,  -1,0,0,0,  -1,-1,0,0,
+             1,0,1,0,  -1,0,0,0,  -1, 1,0,0,
+            -1,0,0,0,   1,0,0,-1,  -1,-1,0,0,
+             1,1,0,0,   1,0,0,0,  -1, 1,0,0,
+            -1,0,0,1,  -1,1,0,0,   1,-1,0,0,
+             1,0,1,0,  -1,0,1,0,   1, 1,0,0,
+            -1,0,0,0,   1,0,0,0,   1,-1,0,0,
+             1,0,1,0,   1,0,0,-1,   1, 1,0,0,
+            ]);
+   scene.addObject(obj3);
+
+   obj4 = new SceneObject();
+   obj4.setVertices([
+                  // Front
+                  -1.0, -1.0,  1.0,
+                   1.0, -1.0,  1.0,
+                   1.0,  1.0,  1.0,
+                  -1.0,  1.0,  1.0,
+                  
+                  // Back
+                  -1.0, -1.0, -1.0,
+                  -1.0,  1.0, -1.0,
+                   1.0,  1.0, -1.0,
+                   1.0, -1.0, -1.0,
+                  
+                  // Top
+                  -1.0,  1.0, -1.0,
+                  -1.0,  1.0,  1.0,
+                   1.0,  1.0,  1.0,
+                   1.0,  1.0, -1.0,
+                  
+                  // Bottom
+                  -1.0, -1.0, -1.0,
+                   1.0, -1.0, -1.0,
+                   1.0, -1.0,  1.0,
+                  -1.0, -1.0,  1.0,
+                  
+                  // Right
+                   1.0, -1.0, -1.0,
+                   1.0,  1.0, -1.0,
+                   1.0,  1.0,  1.0,
+                   1.0, -1.0,  1.0,
+                  
+                  // Left
+                  -1.0, -1.0, -1.0,
+                  -1.0, -1.0,  1.0,
+                  -1.0,  1.0,  1.0,
+                  -1.0,  1.0, -1.0
+                ]);
+   scene.addObject(obj4);
+
+   obj5 = new SceneObject();
+   obj5.setVertices([
+            -1,0,0,0,  -1,0,0,0,  -1,-1,0,0,
+             1,0,0,0,  -1,0,0,0,  -1, 1,0,0,
+            -1,0,0,0,   1,0,0,0,  -1,-1,0,0,
+             1,0,0,0,   1,0,0,0,  -1, 1,0,0,
+            -1,0,0,0,  -1,0,0,0,   1,-1,0,0,
+             1,0,0,0,  -1,0,0,0,   1, 1,0,0,
+            -1,0,0,0,   1,0,0,0,   1,-1,0,0,
+             1,0,0,0,   1,0,0,0,   1, 1,0,0,
+            ]);
+   scene.addObject(obj5);
+
+   canvas1.scene = scene;
+
+</script>
+
