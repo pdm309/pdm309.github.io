@@ -13,7 +13,7 @@
 body {
 	font-family: 'Coolvetica', sans-serif;
 	background-color: #57078E;
-	font-size: 20px;
+	font-size: 18px;
 	color: #ffffff;
 }
 //vw, vh, vmin, vmax
@@ -30,10 +30,26 @@ h1 {
 
 
 div {
-	column-width: 400px;
-	width: 800px;
-	margin-left: 100px;
+	column-width: 500px;
+	
+	
+}
+
+#bio {
+	margin-left: 25px;
+	width: 500px;
 	font-size: 2em;
+}
+
+#bullets {
+	margin-top: -50px;
+	margin-left: -30px;
+	width: 850px;
+	font-size: 1.35em;
+}
+
+#lonely {
+	margin-top: 280px;
 }
 
 p {
@@ -57,14 +73,14 @@ table {
 		margin-left: 2000px;
 	}
 	to {
-		margin-left: -50px;
+		margin-left: 0px;
 	}
 }
 
 span {
 	animation-duration: 3s;
 	animation-name: slidein;
-	margin-left: -50px;
+	margin-left: 0px;
 }
 
 a:hover {
@@ -81,6 +97,6 @@ a {
 }
 
 a img{
-    padding: 10px;
+    padding: 5px;
 	transition:.5s;
 }
