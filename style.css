@@ -28,6 +28,10 @@ h1 {
   animation-delay: 0.5s;
 }
 
+h2 {
+	margin-left: 670px;
+	height: 0px;
+}
 
 div {
 	column-width: 500px;
@@ -36,20 +40,22 @@ div {
 }
 
 #bio {
-	margin-left: 25px;
+	margin-left: 15px;
 	width: 500px;
 	font-size: 2em;
 }
 
 #bullets {
 	margin-top: -50px;
-	margin-left: -30px;
+	margin-left: -230px;
 	width: 850px;
 	font-size: 1.35em;
 }
 
 #lonely {
+	font-size: 1.15em;
 	margin-top: 280px;
+	margin-left: 200px;
 }
 
 p {
