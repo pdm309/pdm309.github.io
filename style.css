@@ -10,91 +10,122 @@
 	} 
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
 	font-family: 'Coolvetica', sans-serif;
 	background-color: #57078E;
 	font-size: 18px;
 	color: #ffffff;
 }
-//vw, vh, vmin, vmax
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 h1 {
-	margin-left: 100px;
-	width: 700px;
-	font-size: 5em;
+	margin-left: 1vw;
+	width: 109vw;
+	font-size: 3em;
 	opacity:0;
-  animation:fadeIn ease-in 1;
-  animation-fill-mode:forwards;
-  animation-duration:1s;
-  animation-delay: 0.5s;
+  	animation:fadeIn ease-in 1;
+  	animation-fill-mode:forwards;
+  	animation-duration:0.5s;
+  	animation-delay: 0.5s;
 }
 
-h2 {
-	margin-left: 645px;
-	height: 0px;
-}
-
-div {
-	column-width: 500px;
-	
-	
-}
 
 #bio {
-	margin-left: 15px;
-	width: 500px;
+	margin-left: 0vw;
+	//width: 55vw;
 	font-size: 2em;
 }
 
-#bullets {
-	margin-top: -50px;
-	margin-left: -280px;
-	width: 850px;
-	font-size: 1.35em;
+#bio a {
+	text-decoration: none
 }
 
-#lonely {
-	font-size: 1.15em;
-	margin-top: 280px;
-	margin-left: 175px;
+#bullets {
+	margin-top: -4vw;
+	//margin-left: -27.5vw;
+	width: 133vw;
+	font-size: 0.7em;
 }
 
 p {
-
   opacity:0;
   animation:fadeIn ease-in 1;
   animation-fill-mode:forwards;
-  animation-duration:1.0s;
+  animation-duration:0.5s;
   animation-delay: 1.0s;
 }
+
+ul {
+  opacity:0;
+  animation:fadeIn ease-in 1;
+  animation-fill-mode:forwards;
+  animation-duration:0.5s;
+  animation-delay: 1.5s;
+}
+
+li {
+	margin: 2px 0;
+}
+
 table {
   opacity:0;
   animation:fadeIn ease-in 1;
   animation-fill-mode:forwards;
-  animation-duration:1.0s;
+  animation-duration:0.5s;
   animation-delay: 1.0s;
 }
 
 @keyframes slidein {
 	from {
-		margin-left: 2000px;
+		margin-left: 312vw;
 	}
 	to {
-		margin-left: 0px;
+		margin-left: 0vw;
 	}
 }
 
 span {
 	animation-duration: 3s;
 	animation-name: slidein;
-	margin-left: 0px;
+	margin-left: 0vw;
 }
 
 a:hover {
 	color: #000;  
+	transition:.5s;
 }
 
 a img:hover{
     filter: invert(100%);
+    transition:.5s;
+}
+
+#flipped {
+  opacity:0;
+  animation:fadeIn ease-in 1;
+  animation-fill-mode:forwards;
+  animation-duration:1.0s;
+  animation-delay: 2.0s;
+}
+
+#flipped:hover{
+	filter: invert(100%);
+	transition:.5s;
 }
 
 a {
@@ -106,3 +137,5 @@ a img{
     padding: 5px;
 	transition:.5s;
 }
+
+
