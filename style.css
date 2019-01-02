@@ -34,8 +34,7 @@ body {
 }
 
 h1 {
-	margin-left: 1vw;
-	width: 109vw;
+	text-align: center;
 	font-size: 3em;
 	opacity:0;
   	animation:fadeIn ease-in 1;
@@ -44,22 +43,8 @@ h1 {
   	animation-delay: 0.5s;
 }
 
-
-#bio {
-	margin-left: 0vw;
-	//width: 55vw;
-	font-size: 2em;
-}
-
-#bio a {
-	text-decoration: none
-}
-
-#bullets {
-	margin-top: -4vw;
-	//margin-left: -27.5vw;
-	width: 133vw;
-	font-size: 0.7em;
+.bullets {
+	font-size: 0.85em;
 }
 
 p {
@@ -71,6 +56,7 @@ p {
 }
 
 ul {
+  margin-left: -2vw;
   opacity:0;
   animation:fadeIn ease-in 1;
   animation-fill-mode:forwards;
@@ -80,29 +66,6 @@ ul {
 
 li {
 	margin: 2px 0;
-}
-
-table {
-  opacity:0;
-  animation:fadeIn ease-in 1;
-  animation-fill-mode:forwards;
-  animation-duration:0.5s;
-  animation-delay: 1.0s;
-}
-
-@keyframes slidein {
-	from {
-		margin-left: 312vw;
-	}
-	to {
-		margin-left: 0vw;
-	}
-}
-
-span {
-	animation-duration: 3s;
-	animation-name: slidein;
-	margin-left: 0vw;
 }
 
 a:hover {
