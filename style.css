@@ -23,6 +23,7 @@ body {
 
 .column {
     float: left;
+    padding-left: 12.5%;
     width: 50%
 }
 
