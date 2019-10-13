@@ -117,7 +117,7 @@ a img{
   display: flex;
   flex-direction: : row;
   width: 100%;
-  height: 56%;
+  height: 50%;
   justify-content: space-between;
   justify-content: center;
 }
@@ -125,12 +125,17 @@ a img{
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
-  border: 1px;
+  border: 5px;
   margin: 5px;
 
 }
 
 .vidcolumn iframe{
-  height: 300px;
+  height: 33vh;
+  width: 33vw;
 }
 
+.vidcolumn p{
+  text-align: center;
+  margin: 15px;
+}
