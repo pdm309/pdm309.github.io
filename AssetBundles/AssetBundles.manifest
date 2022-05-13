@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 3764386218
+CRC: 3681007564
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: visualization2.visualization2
+      Name: cube
       Dependencies: {}
