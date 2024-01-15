@@ -1,0 +1,36 @@
+<html>
+  <head>
+  
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js">
+    AFRAME.registerComponent('wireframe', {
+   dependencies: ['material'],
+   init: function () {
+     this.el.components.material.material.wireframe = true;
+   }
+ });</script>
+ <script src="testxr.js"></script>
+  </head>
+  <body>
+  
+    <a-scene id="scene">
+      
+      <a-entity id="mainmenubin">
+      <a-text value="click on the Bin to begin" font="exo2bold" negate="false" scale="2 2 2" position="-2.45 1.65 -3"></a-text>
+      
+      <a-cone class="mainmenubin" position="0 0.5 -3" radius-bottom=".5" radius-top=".75" rotation="0 0 0" color="#FDFFB3" opacity=".5">
+        <a-cylinder class="mainmenulid" position="0 .5 0" color="#FDFFB3" opacity=".5" rotation="0 0 0" radius=".77" height=".05"></a-cylinder>
+          <a-sphere id="ball2" radius=".1" color="#000000"></a-sphere>
+      </a-cone>
+      </a-entity>
+      
+      
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="6" height="4" color="#ababab"></a-plane>
+      <a-sky color="#423c3c"></a-sky>
+      
+      <a-camera>
+    <a-cursor color="#E9A400"></a-cursor>
+  </a-camera>
+      
+    </a-scene>
+  </body>
+</html>
