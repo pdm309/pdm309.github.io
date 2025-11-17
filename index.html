@@ -1,134 +1,737 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paul Merritt — XR Expert</title>
+  <meta name="description" content="Paul Merritt — XR/AR Technical Artist | Technical Artist | Software Developer | Azure AI Certified. Portfolio showcasing projects in AR, VR, WebXR, and UI/UX for first responders and research." />
   <link rel="icon" href="profilepic.jpg">
-  <title>Paul Merritt</title>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-8430758598563561",
-      enable_page_level_ads: true
-    });
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Google font (fallback to system) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
   <style>
-    .icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1vw;
-      margin-top: 1em;
+    :root {
+      --bg: #f8fafc;
+      --bg-gradient: linear-gradient(180deg, #eef2ff 0%, #f8fafc 60%);
+      --card: #ffffff;
+      --accent: #6b4bd6;
+      --accent-hover: #5a3db5;
+      --muted: #64748b;
+      --text: #0f172a;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 4px 16px rgba(16, 24, 40, 0.08);
+      --shadow-lg: 0 8px 32px rgba(16, 24, 40, 0.12);
+      --radius: 12px;
     }
-    .icons img {
-      width: 3vw;
-      height: auto;
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --bg-gradient: linear-gradient(180deg, #1e293b 0%, #0f172a 60%);
+      --card: #1e293b;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --muted: #94a3b8;
+      --text: #f1f5f9;
+      --border: rgba(241, 245, 249, 0.1);
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .header-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header-title h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.125rem;
+    }
+
+    .header-title p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 0.5rem 0.875rem;
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: background 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(107, 75, 214, 0.1);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .theme-toggle {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    /* Main Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-content h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-content p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .chip-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .chip {
+      background: rgba(107, 75, 214, 0.1);
+      padding: 0.5rem 0.875rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s ease;
+      border: 1px solid rgba(107, 75, 214, 0.2);
+    }
+
+    .chip:hover {
+      background: rgba(107, 75, 214, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Section */
+    .section {
+      margin-top: 2rem;
+    }
+
+    .section:first-child {
+      margin-top: 0;
+    }
+
+    .section h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .project-card {
+      background: linear-gradient(180deg, var(--card), var(--bg));
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .project-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .project-card a {
+      display: inline-block;
+      margin-top: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.875rem;
+    }
+
+    .project-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .skill-tag {
+      background: rgba(107, 75, 214, 0.1);
+      padding: 0.5rem 0.875rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(107, 75, 214, 0.2);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 1.5rem;
+    }
+
+    .meta-item {
+      margin-bottom: 1rem;
+    }
+
+    .meta-item strong {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .meta-item p {
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .social-link {
+      padding: 0.5rem 0.875rem;
+      border-radius: 8px;
+      background: rgba(107, 75, 214, 0.1);
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: 1px solid rgba(107, 75, 214, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .social-link:hover {
+      background: rgba(107, 75, 214, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* XR Preview */
+    .xr-preview {
+      width: 100%;
+      height: 240px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #000;
+      margin-top: 1rem;
+    }
+
+    .xr-preview iframe {
+      border: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Videos */
+    .videos-section {
+      margin-top: 2rem;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .video-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-card iframe {
+      width: 100%;
+      height: 180px;
+      border: 0;
+    }
+
+    .video-card p {
+      padding: 1rem;
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.875rem;
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .hero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .hero-image {
+        width: 100px;
+        height: 100px;
+      }
+
+      .chip-links {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0.75rem;
+      }
+
+      header {
+        padding: 1rem 0;
+      }
+
+      .header-brand {
+        width: 100%;
+      }
+
+      .header-nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .hero-content h2 {
+        font-size: 1.25rem;
+      }
+
+      .card {
+        padding: 1.25rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .videos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .video-card iframe {
+        height: 200px;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease both;
+    }
+
+    /* Focus styles */
+    *:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1><center>Paul  Merritt</center></h1>
-  </header>
+  <div class="container">
+    <header>
+      <div class="header-brand">
+        <div class="header-logo">
+          <img src="profilepic2.jpg" alt="Paul Merritt">
+        </div>
+        <div class="header-title">
+          <h1>Paul Merritt</h1>
+          <p>XR Expert | Technical Artist | Software Developer | Azure AI Certified</p>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#videos" class="nav-link">Videos</a>
+        <a href="PaulMerrittResume.pdf" class="btn-primary" target="_blank">Resume</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </nav>
+    </header>
 
-  <div class="row">
-    <div class="column">
-      <p>
-        Paul Merritt graduated <a href="https://nyu.edu" target="_blank">New York University</a> with a Bachelor's in
-        <a href="https://cs.nyu.edu/home/index.html" target="_blank">Computer Science</a>
-        and a minor in
-        <a href="https://engineering.nyu.edu/academics/departments/computer-science-and-engineering/degrees-and-programs/minors#chapter-id-27773" target="_blank">Game Engineering</a> in May 2018.
-        Originally from Los Angeles, he currently lives in Brooklyn, New York.
-      </p>
-      <ul>
-        <li><a href="PaulMerrittResume.pdf" target="_blank">Resume</a></li>
-        <li>Professional Projects:</li>
-        <ul>
-          <li class="bullets"><a href="https://github.com/paulmerritt/CUE" target="_blank">CUE : Color Usability Extractor</a></li>
-          <li class="bullets">XRRemoteResearch - MIDAS Research Paper Coming Soon</li>
-          <li class="bullets">ARTV - Software Record TBD</li>
-          <li class="bullets">[REDACTED by NDA w/ Meta]</li>
-          <li class="bullets">[REDACTED by NDA w/ Meta]</li>
-          <li class="bullets">[REDACTED by NDA w/ Meta]</li>
-          <li class="bullets"><b></b>[REDACTED by NDA w/ The Walt Disney Co.]</li>
-          <li class="bullets"><a href="https://www.chariotchallenge.com/" target="_blank">CHARIoT Challenge Facilitator and Judge</a></li>
-          <li class="bullets"><a href="https://apps.apple.com/us/app/pscr-ar/id1491997917" target="_blank">PSCR AR (iOS</a><a href="https://play.google.com/store/apps/details?id=com.nist.pscrardemo" target="_blank"> and Android)</a></li>
-          <li class="bullets"><a href="https://github.com/paulmerritt/EODProject" target="_blank">Bomb Tech HUD (Unity, C#, MagicLeap)</a></li>
-          <li class="bullets"><a href="https://github.com/paulmerritt/SCBAHUDProject" target="_blank">Fireman SCBA HUD (Unity, C#, Hololens)</a></li>
-          <li class="bullets"><a href="https://github.com/pdm309/DAQRIHeadsetRepairProject" target="_blank">Headset Repair Tutorial (Unity, C#, DAQRI)</a></li>
-        </ul>
-        <li>Academic Projects:</li>
-        <ul>
-          <li><a href="https://github.com/pdm309/GameDesignProjects" target="_blank" class="bullets">Minimalist Game Design Prototypes (Unity, C#, Processing, Java)</a></li>
-          <li><a href="https://github.com/pdm309/JavaToCPlusPlusTranspiler" target="_blank" class="bullets">Java to C++ Transpiler (Java, XTC, SBT)</a></li>
-          <li><a href="https://github.com/pdm309/CS3113Assignments" target="_blank" class="bullets">Intro to Game Programming Assignments (C++, OpenGL, SDL)</a></li>
-        </ul>
-        <li>Personal Projects:</li>
-        <ul>
-          <li><a href="https://github.com/pdm309/twittsbot" target="_blank" class="bullets">Twitter Bot (Javascript, NodeJS)</a></li>
-          <li><a href="https://github.com/pdm309/ChallongeBracketReader" target="_blank" class="bullets">Challonge Bracket Reader (C#, HTTP RestRequest)</a></li>
-        </ul>
-      </ul>
-      <div class="icons">
-			<a href="https://www.facebook.com/paulmerritt95" target="_blank" id="flipped">
-			<img src="Facebook.png" style="width:100%;filter: invert(100%);"></a>
-			<a href="https://www.linkedin.com/in/paul-merritt/" target="_blank" id="flipped">
-			<img src="linked.png" style="width:100%;filter: invert(100%);"></a>
-			<a href="mailto:hey@paulmerritt.me" target="_blank" id="flipped">
-			<img src="email.png" style="width:100%;filter: invert(100%);"></a>
-			<a href="https://github.com/paulmerritt/" target="_blank" id="flipped">
-			<img src="Github.png" style="width:100%;filter: invert(100%);"></a>
-		</div>
+    <div class="main-grid">
+      <main>
+        <div class="card fade-in">
+          <div class="hero">
+            <div class="hero-image">
+              <img src="profilepic2.jpg" alt="Paul Merritt">
+            </div>
+            <div class="hero-content">
+              <h2>Hi – I'm Paul</h2>
+              <p>NYU Computer Science (Game Engineering Minor) • Brooklyn, NY<br>
+              Projects in AR/VR for first responders, research, and entertainment. Technical Artist with experience at Meta, NIST, and Disney.</p>
+              <div class="chip-links">
+                <a class="chip" href="https://github.com/paulmerritt/CUE" target="_blank">CUE • Color Usability Extractor</a>
+                <a class="chip" href="https://www.nist.gov/ctl/pscr/open-innovation-prize-challenges/past-prize-challenges/2020-chariot-challenge" target="_blank">CHARIoT</a>
+                <a class="chip" href="https://www.appbrain.com/app/pscr-ar/com.nist.pscrardemo" target="_blank">PSCR AR</a>
+              </div>
+            </div>
+          </div>
+
+          <div id="work" class="section">
+            <h3>Professional Projects</h3>
+            <div class="projects-grid">
+              <article class="project-card">
+                <h4>CUE – Color Usability Extractor</h4>
+                <p>Tool for extracting dominant colors, analyzing contrast, and generating WCAG-compliant companion colors.</p>
+                <a href="https://github.com/paulmerritt/CUE" target="_blank">View on GitHub →</a>
+              </article>
+
+              <article class="project-card">
+                <h4>XRRemoteResearch</h4>
+                <p>Streaming AR/IoT sensor data to WebAR and Magic Leap – MIDAS research paper forthcoming.</p>
+              </article>
+
+              <article class="project-card">
+                <h4>ARTV & AR Training</h4>
+                <p>Augmented Reality Tracking Visualization and simulations for first responders and training scenarios.</p>
+              </article>
+
+              <article class="project-card">
+                <h4>Magic Leap Logging Tool</h4>
+                <p>Unity Tool for logging and and all interactions in a MagicLeap One headset. Eye gaze, hand gestures, etc. to a usability console over the internet and to local file.</p>
+                <a href="https://github.com/paulmerritt/PSCR_ML_Logging" target="_blank">Repository →</a>
+              </article>
+
+              <article class="project-card">
+                <h4>Freelance – Bolder Games / Walt Disney Co.</h4>
+                <p>AR UX and rapid-prototyping collaborations for studio partners.</p>
+              </article>
+
+              <article class="project-card">
+                <h4>Academic / Personal</h4>
+                <p>Game prototypes, transpiler work, and tooling (links in GitHub).</p>
+              </article>
+            </div>
+          </div>
+
+          <div id="about" class="section">
+            <h3>About & Skills</h3>
+            <p style="color: var(--muted)">Experience across Unity, WebXR, 3D pipelines, shader authoring, UI/UX for wearable devices, and data-driven visualizations.</p>
+            <div class="skills">
+              <span class="skill-tag">Unity</span>
+              <span class="skill-tag">WebXR</span>
+              <span class="skill-tag">Shaders</span>
+              <span class="skill-tag">C#</span>
+              <span class="skill-tag">Javascript</span>
+              <span class="skill-tag">HTML / CSS</span>
+              <span class="skill-tag">Point Clouds / Gaussian Splats</span>
+            </div>
+          </div>
+        </div>
+
+      
+      </main>
+
+      <aside class="sidebar">
+        <div class="card fade-in">
+          <div class="meta-item">
+            <strong>Location</strong>
+            <p>Brooklyn, NY</p>
+          </div>
+          <div class="meta-item">
+            <strong>Education</strong>
+            <p>NYU – B.S. Computer Science</p>
+          </div>
+          <div class="meta-item">
+            <strong>Availability</strong>
+            <p>Freelance / Contract</p>
+          </div>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/paul-merritt/" target="_blank" class="social-link">LinkedIn</a>
+            <a href="https://github.com/paulmerritt/" target="_blank" class="social-link">GitHub</a>
+            <a href="mailto:hey@paulmerritt.me" class="social-link">Email</a>
+          </div>
+        </div>
+
+        <div class="card fade-in" style="margin-top: 1rem">
+          <h3>Contact</h3>
+          <p style="color: var(--muted); margin-bottom: 1rem">Interested in collaborations, research, or contract work? Send a note – I reply quickly.</p>
+          <a class="btn-primary" href="mailto:hey@paulmerritt.me" style="display: inline-block">Email Me</a>
+        </div>
+
+        <div class="card fade-in" style="margin-top: 1rem">
+          <h3>3D XR Preview</h3>
+          <div class="xr-preview">
+            <iframe srcdoc="<html><head><script src='https://aframe.io/releases/1.5.0/aframe.min.js'></script></head><body style='margin:0'><a-scene background='color: #000'><a-entity position='0 1.2 -3'><a-text value='PAUL MERRITT\n you should hire him!' color='#a78bfa' align='center' scale='2 2 2'></a-text></a-entity><a-entity light='type: point; intensity: 2; distance: 6; color: #a78bfa' animation='property: position; to: 2 2 -2; dir: alternate; loop: true; dur: 2500'></a-entity><a-entity light='type: point; intensity: 1.5; distance: 6; color: #ffffff' animation='property: position; to: -2 2 -2; dir: alternate; loop: true; dur: 2800'></a-entity></a-scene></body></html>"></iframe>
+          </div>
+        </div>
+      </aside>
     </div>
-    <div class="column">
-      <p>
-        <img class="profilepic" src="profilepic2.jpg">
-        <p class="description">
-			    	Paul Merritt graduated NYU in 2018 and began working at <a href="https://www.nist.gov/">NIST</a> in the <a href="https://www.nist.gov/ctl/pscr">PSCR division</a>. 
-					He has completed several projects in Augmented Reality as part of the UI/UX portfolio. 
-					They're simulations intended for firefighters, bomb squads, and police officers:  
-					for the <a href="https://www.microsoft.com/en-us/hololens">Microsoft Hololens</a>, 
-					the <a href="https://www.magicleap.com/magic-leap-one">Magic Leap One</a>, 
-					the <a href="https://www.vuzix.com/products/blade-smart-glasses">Vuzix Blade</a>, and WebXR. 
-					He co-led and judged the <a href="https://www.chariotchallenge.com/">CHARIoT Challenge</a>, bringing together industry and academia to create innovations in HUDs. 
-					After, he completed a AR freelance contract with 
-					<a href="https://www.boldergames.com/">Bolder Games</a> for The Walt Disney Company.
-					He went on to work as a Technical Artist at Meta for 2 years before returning to NIST PSCR to continue supporting first responders through advancements in XR technology.
-		    	</p>
-      </p>
-    </div>
+
+    <section id="videos" class="videos-section">
+      <div class="card fade-in">
+        <h3>Project Videos</h3>
+        <div class="videos-grid">
+          <div class="video-card">
+            <iframe loading="lazy" src="https://www.youtube.com/embed/V2V4C5bMZhc" title="CUE" allowfullscreen></iframe>
+            <p>CUE: Color Usability Extractor – UI design tool demo.</p>
+          </div>
+
+          <div class="video-card">
+            <iframe loading="lazy" src="https://www.youtube.com/embed/RnMMS_bBoaA" title="IoT WebAR" allowfullscreen></iframe>
+            <p>IoT sensor streaming to WebAR – proof of concept.</p>
+          </div>
+
+          <div class="video-card">
+            <iframe loading="lazy" src="https://www.youtube.com/embed/Rvsyq56jf0c" title="ARTV" allowfullscreen></iframe>
+            <p>ARTV – Augmented Reality Tracking Visualization</p>
+          </div>
+
+          <div class="video-card">
+            <iframe loading="lazy" src="https://www.youtube.com/embed/ggCurgQQhAw" title="Magic Leap IoT" allowfullscreen></iframe>
+            <p>Magic Leap real-time IoT streaming demo.</p>
+          </div>
+
+          <div class="video-card">
+            <iframe loading="lazy" src="https://www.youtube.com/embed/GnLNY9uAAHQ" title="Bomb Defusal" allowfullscreen></iframe>
+            <p>Bomb Defusal scenario footage – Unity prototype.</p>
+          </div>
+
+          <div class="video-card">
+            <iframe loading="lazy" src="https://www.youtube.com/embed/WMz3UKYUe9A" title="Marker AR" allowfullscreen></iframe>
+            <p>Marker-based AR demo for 2018 conference.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© Paul Merritt – Built with care. <a href="https://paulmerritt.me" target="_blank">paulmerritt.me</a></p>
+    </footer>
   </div>
 
-  <div class="video-container">
-    <div class="vidcolumn">
-      <iframe src="https://www.youtube.com/embed/V2V4C5bMZhc" frameborder="0" allowfullscreen></iframe>
-      <p>CUE: Color Usability Extractor, an internal tool for UI design and useability.</p>
-    </div>
-    <div class="vidcolumn">
-      <iframe src="https://www.youtube.com/embed/RnMMS_bBoaA" frameborder="0" allowfullscreen></iframe>
-      <p>This is a Proof of Concept for streaming IoT sensor data to a WebAR Application.</p>
-    </div>
-    <div class="vidcolumn">
-      <iframe src="https://www.youtube.com/embed/Rvsyq56jf0c" frameborder="0" allowfullscreen></iframe>
-      <p>ARTV, or Augmented Reality Tracking Visualization...</p>
-    </div>
-  </div>
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+    // Check for saved theme preference or default to light mode
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', currentTheme);
+    
+    themeToggle.addEventListener('click', () => {
+      const theme = html.getAttribute('data-theme');
+      const newTheme = theme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
 
-  <div class="video-container">
-    <div class="vidcolumn">
-      <iframe src="https://www.youtube.com/embed/ggCurgQQhAw" frameborder="0" allowfullscreen></iframe>
-      <p>This is a Proof of Concept for streaming IoT sensor data to a Magic Leap application in realtime...</p>
-    </div>
-    <div class="vidcolumn">
-      <iframe src="https://www.youtube.com/embed/GnLNY9uAAHQ" frameborder="0" allowfullscreen></iframe>
-      <p>This is footage from a Bomb Defusal scenario I developed in Unity...</p>
-    </div>
-    <div class="vidcolumn">
-      <iframe src="https://www.youtube.com/embed/WMz3UKYUe9A" frameborder="0" allowfullscreen></iframe>
-      <p>This is a marker-based AR app I developed for the 2018 Public Safety Stakeholders Conference...</p>
-    </div>
-  </div>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
 
+    // Respect reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.animation = 'none';
+      });
+    }
+  </script>
 </body>
 </html>
